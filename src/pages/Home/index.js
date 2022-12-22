@@ -7,6 +7,9 @@ import * as S from './styles';
 export function Home() {
   return (
     <S.Container>
+      <S.InputSearcherContainer>
+        <input type="text" placeholder="Pesquisar contato..." />
+      </S.InputSearcherContainer>
       <S.Header>
         <strong>3 contatos</strong>
         <a href="#">Novo contato</a>
