@@ -1,3 +1,5 @@
-export const EditContact = () => (
-  'Edit Contact'
-);
+import { PageHeader } from 'components/PageHeader';
+
+export function EditContact() {
+  return (<PageHeader title="Editar Contato" />);
+}

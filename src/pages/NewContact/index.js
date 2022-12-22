@@ -1,3 +1,7 @@
-export const NewContact = () => (
-  'New Contact'
-);
+import { PageHeader } from 'components/PageHeader';
+
+export function NewContact() {
+  return (
+    <PageHeader title="Novo Contato" />
+  );
+}
