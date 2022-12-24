@@ -1,36 +1,86 @@
 import Input from 'components/Input';
 import Button from 'components/Button';
 import { FormGroup } from 'components/FormGroup';
-import PropTypes from 'prop-types';
 import Select from 'components/Select';
+
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+
 import * as S from './styles';
 
-export const ContactForm = ({ buttonLabel }) => (
-  <S.Form>
-    <FormGroup>
-      <Input typex="text" placeholder="Nome" />
-    </FormGroup>
+export const ContactForm = ({ buttonLabel }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [category, setCategory] = useState('');
+  const [errors, setErrors] = useState([]);
 
-    <FormGroup>
-      <Input typex="email" placeholder="Email" />
-    </FormGroup>
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
 
-    <FormGroup error="O formato do telefone é inválido">
-      <Input typex="number" placeholder="Telefone" error />
-    </FormGroup>
+  function handleChangeName(event) {
+    setName(event.target.value);
 
-    <FormGroup>
-      <Select>
-        <option value="123">Instagram</option>
-        <option value="321">Twitter</option>
-      </Select>
-    </FormGroup>
+    if (!event.target.value) {
+      setErrors((prevState) => [
+        ...prevState,
+        { field: 'name', message: 'Nome é obrigatório' },
+      ]);
+    } else {
+      setErrors((prevState) => prevState.filter(
+        (error) => error.field !== 'name',
+      ));
+    }
+  }
 
-    <S.ButtonContainer>
-      <Button type="submit">{buttonLabel}</Button>
-    </S.ButtonContainer>
-  </S.Form>
-);
+  console.log(errors);
+
+  return (
+    <S.Form onSubmit={handleSubmit}>
+      <FormGroup>
+        <Input
+          typex="text"
+          placeholder="Nome"
+          value={name}
+          onChange={handleChangeName}
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <Input
+          typex="email"
+          placeholder="Email"
+          value={email}
+          onChange={({ target }) => setEmail(target.value)}
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <Input
+          typex="number"
+          placeholder="Telefone"
+          value={telefone}
+          onChange={({ target }) => setTelefone(target.value)}
+        />
+      </FormGroup>
+
+      <FormGroup>
+        <Select
+          value={category}
+          onChange={({ target }) => setCategory(target.value)}
+        >
+          <option value="123">Instagram</option>
+          <option value="321">Twitter</option>
+        </Select>
+      </FormGroup>
+
+      <S.ButtonContainer>
+        <Button type="submit">{buttonLabel}</Button>
+      </S.ButtonContainer>
+    </S.Form>
+  );
+};
 
 ContactForm.propTypes = {
   buttonLabel: PropTypes.node.isRequired,
