@@ -6,6 +6,7 @@ import Select from 'components/Select';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
+import isEmailValid from 'utils/isEmailValid';
 import * as S from './styles';
 
 export const ContactForm = ({ buttonLabel }) => {
@@ -19,7 +20,7 @@ export const ContactForm = ({ buttonLabel }) => {
     event.preventDefault();
   }
 
-  function handleChangeName(event) {
+  function handleNameChange(event) {
     setName(event.target.value);
 
     if (!event.target.value) {
@@ -34,7 +35,27 @@ export const ContactForm = ({ buttonLabel }) => {
     }
   }
 
-  console.log(errors);
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+
+    if (event.target.value && !isEmailValid(event.target.value)) {
+      const alreadyEmailExits = errors.find((erro) => erro.field === 'email');
+
+      if (alreadyEmailExits) {
+        return;
+      }
+
+      setErrors((prevState) => [
+        ...prevState,
+        { field: 'email', message: 'E-mail inválido' },
+      ]);
+    } else {
+      setErrors((prevState) => [
+        ...prevState,
+        errors.filter((erro) => erro.field !== 'email'),
+      ]);
+    }
+  }
 
   return (
     <S.Form onSubmit={handleSubmit}>
@@ -43,7 +64,7 @@ export const ContactForm = ({ buttonLabel }) => {
           typex="text"
           placeholder="Nome"
           value={name}
-          onChange={handleChangeName}
+          onChange={handleNameChange}
         />
       </FormGroup>
 
@@ -52,7 +73,7 @@ export const ContactForm = ({ buttonLabel }) => {
           typex="email"
           placeholder="Email"
           value={email}
-          onChange={({ target }) => setEmail(target.value)}
+          onChange={handleEmailChange}
         />
       </FormGroup>
 
