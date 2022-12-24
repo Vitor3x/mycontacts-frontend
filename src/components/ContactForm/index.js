@@ -15,8 +15,8 @@ export const ContactForm = ({ buttonLabel }) => (
       <Input typex="email" placeholder="Email" />
     </FormGroup>
 
-    <FormGroup>
-      <Input typex="number" placeholder="Telefone" />
+    <FormGroup error="O formato do telefone é inválido">
+      <Input typex="number" placeholder="Telefone" error />
     </FormGroup>
 
     <FormGroup>
