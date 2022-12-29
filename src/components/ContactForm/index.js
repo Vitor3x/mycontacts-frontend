@@ -39,9 +39,9 @@ export const ContactForm = ({ buttonLabel }) => {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
-      const alreadyEmailExits = errors.find((erro) => erro.field === 'email');
+      const errorAlreadyExists = errors.find((error) => error.field === 'email');
 
-      if (alreadyEmailExits) {
+      if (errorAlreadyExists) {
         return;
       }
 
@@ -50,10 +50,7 @@ export const ContactForm = ({ buttonLabel }) => {
         { field: 'email', message: 'E-mail inválido' },
       ]);
     } else {
-      setErrors((prevState) => [
-        ...prevState,
-        errors.filter((erro) => erro.field !== 'email'),
-      ]);
+      setErrors((prevState) => prevState.filter((error) => error.field !== 'email'));
     }
   }
 
@@ -70,7 +67,6 @@ export const ContactForm = ({ buttonLabel }) => {
 
       <FormGroup>
         <Input
-          typex="email"
           placeholder="Email"
           value={email}
           onChange={handleEmailChange}
