@@ -54,9 +54,13 @@ export const ContactForm = ({ buttonLabel }) => {
     }
   }
 
+  function getErrorMessageByFieldName(fieldName) {
+    return errors.find((erro) => erro.field === fieldName)?.message;
+  }
+
   return (
     <S.Form onSubmit={handleSubmit}>
-      <FormGroup>
+      <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
           typex="text"
           placeholder="Nome"
@@ -65,8 +69,9 @@ export const ContactForm = ({ buttonLabel }) => {
         />
       </FormGroup>
 
-      <FormGroup>
+      <FormGroup error={getErrorMessageByFieldName('email')}>
         <Input
+          error={getErrorMessageByFieldName('email')}
           placeholder="Email"
           value={email}
           onChange={handleEmailChange}
